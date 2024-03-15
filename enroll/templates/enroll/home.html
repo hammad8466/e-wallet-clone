@@ -5,25 +5,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="{% static 'home.css' %}">
 </head>
 <body>
-    <a href="{% url 'profile' %}">Profile</a>
-    <h1>Welcome to Your Dashboard {{ user_name }}</h1>
-    <div id="balance-container">
-        <form method="POST">
-            {% csrf_token %}
-            {{ toggle_form.toggle_balance }}
-            <input type="submit" value="Toggle Balance">
-        </form>
-        {% if show_balance %}
-            <p>Your current balance: {{ current_balance }}</p>
-        {% else %}
-            <p>Balance is hidden.</p>
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="{% url 'profile' %}">Profile</a>
+        </nav>
+
+        <h1 class="mt-5">Welcome to Your Dashboard {{ user_name }}</h1>
+
+        <div class="mt-4" id="balance-container">
+            <form method="POST" class="mb-3">
+                {% csrf_token %}
+                {{ toggle_form.toggle_balance }}
+                <button type="submit" class="btn btn-primary">Toggle Balance</button>
+            </form>
+            {% if show_balance %}
+                <p>Your current balance: {{ current_balance }}</p>
+            {% else %}
+                <p>Balance is hidden.</p>
+            {% endif %}
+        </div>
+
+        {% if user_name %}
+            <h2 class="mt-3">Welcome, {{ user_name }}!</h2>
         {% endif %}
     </div>
-    {% if user_name %}
-        <h2>Welcome, {{ user_name }}!</h2>
-    {% endif %}
 </body>
 </html>

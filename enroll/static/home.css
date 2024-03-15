@@ -1,41 +1,7 @@
-/* Define styles for the home page */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-}
-
-a {
-    text-decoration: none;
-    color: #007bff;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-h1 {
-    color: #333;
-}
+/* home.css */
 
 #balance-container {
     margin-top: 20px;
 }
 
-form {
-    margin-bottom: 10px;
-}
-
-input[type="submit"] {
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    background-color: #007bff;
-    color: #fff;
-    cursor: pointer;
-}
-
-input[type="submit"]:hover {
-    background-color: #0056b3;
-}
+/* Add additional custom styling here */

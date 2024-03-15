@@ -4,15 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Add Friend</title>
+    <!-- Link to Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- Link to external CSS file for Add Friend page -->
     <link rel="stylesheet" type="text/css" href="{% static 'add_friends.css' %}">
 </head>
 <body>
-    <h1>Add Friend</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Add Friend</button>
-    </form>
+    <div class="container">
+        <h1 class="mt-5">Add Friend</h1>
+        <form method="post" class="mt-4">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Add Friend</button>
+        </form>
+    </div>
 </body>
 </html>

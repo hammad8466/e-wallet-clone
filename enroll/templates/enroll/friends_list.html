@@ -4,14 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Friends List</title>
+    <!-- Link to Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Link to external CSS file for Friend List page -->
     <link rel="stylesheet" type="text/css" href="{% static 'friend_list.css' %}">
 </head>
 <body>
-    <h1>Friends List</h1>
-    <ul>
-        {% for friend in friends %}
-        <li>{{ friend.nickname }} - {{ friend.email }} - {{ friend.contact_number }}</li>
-        {% endfor %}
-    </ul>
+    <div class="container">
+        <h1 class="mt-5">Friends List</h1>
+        <ul class="list-group mt-4">
+            {% for friend in friends %}
+            <li class="list-group-item">{{ friend.nickname }} - {{ friend.email }} - {{ friend.contact_number }}</li>
+            {% endfor %}
+        </ul>
+    </div>
 </body>
 </html>
