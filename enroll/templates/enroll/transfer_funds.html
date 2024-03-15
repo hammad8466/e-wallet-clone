@@ -1,48 +1,44 @@
+{% extends 'enroll/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transfer Funds</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="{% static 'transfer_funds.css' %}">
-</head>
-<body>
-    <div class="container">
-        <h1 class="mt-5">Transfer Funds</h1>
-        <form id="transfer-form" class="mt-4" method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="button" class="btn btn-primary" onclick="performTransfer()">Transfer</button>
-        </form>
-    </div>
 
-    <script>
-        // Function to handle form submission and display pop-up message
-        function performTransfer() {
-            // Submit the form asynchronously
-            var formData = new FormData(document.getElementById('transfer-form'));
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', '{% url "transfer_funds" %}', true); // Use double quotes for the template tag
-            xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === XMLHttpRequest.DONE) {
-                    if (xhr.status === 200) {
-                        var response = JSON.parse(xhr.responseText);
-                        displayMessage(response.message); // Display the response message in a pop-up
-                    } else {
-                        displayMessage('An error occurred while processing the transfer.'); // Display error message
-                    }
+{% block title %}Transfer Funds{% endblock %}
+
+
+{% block content %}
+<div class="container d-flex flex-column justify-content-center align-items-center ">
+    <h1 class="mt-5">Transfer Funds</h1>
+    <form id="transfer-form" class="mt-4" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="button" class="btn btn-primary" onclick="performTransfer()">Transfer</button>
+    </form>
+</div>
+
+
+<script>
+    // Function to handle form submission and display pop-up message
+    function performTransfer() {
+        // Submit the form asynchronously
+        var formData = new FormData(document.getElementById('transfer-form'));
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '{% url "transfer_funds" %}', true); // Use double quotes for the template tag
+        xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    displayMessage(response.message); // Display the response message in a pop-up
+                } else {
+                    displayMessage('An error occurred while processing the transfer.'); // Display error message
                 }
-            };
-            xhr.send(formData);
-        }
+            }
+        };
+        xhr.send(formData);
+    }
 
-        // Function to display pop-up message
-        function displayMessage(message) {
-            alert(message);
-        }
-    </script>
-</body>
-</html>
+    // Function to display pop-up message
+    function displayMessage(message) {
+        alert(message);
+    }
+</script>
+{% endblock %}

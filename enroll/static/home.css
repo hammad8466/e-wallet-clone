@@ -1,7 +1,11 @@
 /* home.css */
-
-#balance-container {
-    margin-top: 20px;
+/* Add your custom CSS styling rules here */
+.jumbotron {
+    background-color: #f8f9fa;
+    padding: 2rem 1rem;
+    margin-bottom: 2rem;
 }
 
-/* Add additional custom styling here */
+.card {
+    margin-top: 2rem;
+}
