@@ -15,33 +15,13 @@ urlpatterns = [
     path('account-statement/', views.account_statement, name='account_statement'),
     path('add-friend/', views.add_friend, name='add_friend'),
     path('friends-list/', views.friends_list, name='friends_list'),
-    # path('confirm-email/<str:uidb64>/<str:token>/', views.confirm_email, name='confirm_email'),
-     path('account_activation_sent/', views.account_activation_sent, name='account_activation_sent'),
+    path('account_activation_sent/', views.account_activation_sent, name='account_activation_sent'),
     path('activate/<uidb64>/<token>/', views.activate, name='activate'),
     path('account_activation_complete/', views.account_activation_complete, name='account_activation_complete'),
     path('admin_dashboard/', views.admin_dashboard,name='admin_dashboard'),
-    # path('admin/statement-history/', views.admin_statement_history, name='admin_statement_history'),
-    # path('admin/statement-history/', views.admin_statement_history, name='admin_statement_history'),
-        # path('admin-account-statement/', views.admin_account_statement, name='admin_account_statement'),
-            path('statement-history/', views.admin_statement_history, name='admin_statement_history'),
-                path('load-balance/', views.admin_load_balance, name='admin_load_balance'),
-                #    path('confirm/<str:param1>/<str:param2>/', views.confirm_view, name='confirm'),
-                # path('confirm/<str:param1>/<str:param2>/', views.confirm_view, name='confirm'),
-                    path('confirm/<str:uidb64>/<str:token>/', views.confirm_view, name='confirm'),
-                        path('change_email/', views.user_change_email, name='change_email'),
+    path('statement-history/', views.admin_statement_history, name='admin_statement_history'),
+    path('load-balance/', views.admin_load_balance, name='admin_load_balance'),
+    path('confirm/<str:uidb64>/<str:token>/', views.confirm_view, name='confirm'),
+    path('change_email/', views.user_change_email, name='change_email'),
     path('confirm_email_change/<str:uidb64>/<str:token>/', views.confirm_email_change, name='confirm_email_change'),
-
-
-
-
-    # Other URL patterns...
-
-    # Other URL patterns...
-
-
-
-
-
-
-   
 ]

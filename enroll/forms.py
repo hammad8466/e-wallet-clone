@@ -1,7 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from .models import CustomUser,Friend
-
 from cloudinary.forms import CloudinaryFileField
 
 class StatementHistoryForm(forms.Form):
@@ -19,7 +18,6 @@ class SignUpForm(UserCreationForm):
         image = CloudinaryFileField(
         options={"folder": "blog/", "crop": "limit", "width": 600, "height": 600,}
     )    
-
 class EditUserProfileForm(UserChangeForm):
     password = None
     cnic = forms.CharField(max_length=15)
@@ -43,16 +41,14 @@ class EditAdminProfileForm(UserChangeForm):
         fields = '__all__'
         labels = {'email': 'Email'}
 
- 
+
 class FriendForm(forms.ModelForm):
     class Meta:
         model = Friend
         fields = ['nickname', 'email', 'contact_number']   
        
-
 class TransferFundsForm(forms.Form):
     receiver = forms.CharField(max_length=20, label='Receiver Contact')
-    # receiver = forms.ModelChoiceField(queryset=Friend.objects.all())
     amount = forms.DecimalField(max_digits=10, decimal_places=2, label='Amount')
     purpose = forms.CharField(max_length=255, label='Purpose')
 
@@ -63,19 +59,9 @@ class TransferFundsForm(forms.Form):
         return amount
     
 
-
 class ToggleBalanceForm(forms.Form):
     toggle_balance = forms.BooleanField(label='Toggle Balance', required=False)    
 
-
-
-# class EmailChangeForm(forms.Form):
-#     new_email = forms.EmailField(label='New Email Address')        
-
-# class EmailChangeForm(forms.ModelForm):
-#     class Meta:
-#         model = CustomUser
-#         fields = ['new_email']
     
 class EmailChangeForm(forms.ModelForm):
     new_email = forms.EmailField(label='New Email Address')

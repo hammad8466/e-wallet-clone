@@ -17,13 +17,8 @@ class CustomUser(AbstractUser):
     email_token=models.CharField(max_length=100,default=False)
     new_email = models.EmailField(_('new email address'), blank=True, null=True)
 
-   
     def is_admin(self):
         return self.role == 'Admin'
-
-
-    def __str__(self):
-        return self.username
 
     def __str__(self):
         return self.username

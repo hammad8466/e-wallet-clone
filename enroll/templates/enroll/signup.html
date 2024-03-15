@@ -6,7 +6,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Registration</title>
-    <!-- Link to external CSS file -->
     <link rel="stylesheet" type="text/css" href="{% static 'signup.css' %}">
 </head>
 <body>
@@ -22,7 +21,6 @@
     {% endif %}
     {% if messages %}
       {% for message in messages %}
-        <!-- Apply the 'success' class to elements with a success message -->
         <small {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</small>
        {% endfor %}
      {% endif %}
