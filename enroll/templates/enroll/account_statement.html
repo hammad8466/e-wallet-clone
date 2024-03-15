@@ -1,3 +1,4 @@
+{% extends 'enroll/base.html' %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -11,6 +12,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'account_statement.css' %}">
 </head>
 <body>
+{% block content %}
     <div class="container">
         <h1 class="mt-5">Account Statement</h1>
         
@@ -36,5 +38,6 @@
             {% endfor %}
         </ul>
     </div>
+{% endblock %}
 </body>
 </html>

@@ -1,9 +1,12 @@
-/* Define styles for the Add Friend page */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     margin: 0;
     padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
 h1 {
@@ -12,7 +15,6 @@ h1 {
 
 form {
     max-width: 400px;
-    margin: 20px auto;
     padding: 20px;
     background-color: #fff;
     border-radius: 8px;
