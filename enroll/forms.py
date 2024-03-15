@@ -7,12 +7,12 @@ class StatementHistoryForm(forms.Form):
     contact = forms.CharField(label=' Contact Number')
 
 class SignUpForm(UserCreationForm):
-    password2 = forms.CharField(label="Change Password (Again)", widget=forms.PasswordInput)
+    password2 = forms.CharField(label="Confirm Password", widget=forms.PasswordInput)
     email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.')
 
     class Meta:
         model = CustomUser  
-        fields = ['username', 'first_name', 'last_name', 'email','image']
+        fields = ['username', 'first_name', 'last_name', 'email',]
         labels = {'email': 'Email Address'}
 
         image = CloudinaryFileField(

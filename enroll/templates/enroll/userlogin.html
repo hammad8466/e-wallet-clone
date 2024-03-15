@@ -5,24 +5,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Login</title>
-    <link rel="stylesheet"  href="{% static 'userlogin.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'userlogin.css' %}">
 </head>
 <body> 
     <div class="container">
-    <h1 class="container">User Login</h1>
-        <form action="" method="post" novalidate>
+        <h1>User Login</h1>
+        
+
+        
+        <form action="" method="post" novalidate class="needs-validation">
             {% csrf_token %}
-            {% for fm in form %}
-                <label for="{{ fm.id_for_label }}">{{ fm.label_tag }}</label>
-                {{ fm }}
-                <div class="error-msg">{{ fm.errors }}</div>
-            {% endfor %}
-            <input type="submit" value="Login">
+            <div class="form-group">
+                <label for="id_username">Username</label>
+                {{ form.username }}
+                <div class="invalid-feedback">{{ form.username.errors }}</div>
+            </div>
+            <div class="form-group">
+                <label for="id_password">Password</label>
+                {{ form.password }}
+                <div class="invalid-feedback">{{ form.password.errors }}</div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Login</button>
         </form>
+        {% if messages %}
+        <div class="alert alert-danger">
+            {% for message in messages %}
+                <strong>Error:</strong> {{ message }}
+            {% endfor %}
+        </div>
+    {% endif %}
         <div class="links">
-            <a href="{% url 'signup' %}">Signup</a>
-            <a href="{% url 'changepass' %}">Change Password</a>
+            <a href="{% url 'signup' %}" class="btn btn-link">Signup</a>
+            <a href="{% url 'changepass' %}" class="btn btn-link">Change Password</a>
         </div>
     </div>
+
 </body>
 </html>

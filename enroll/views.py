@@ -5,14 +5,10 @@ from django.http import HttpResponse, JsonResponse
 from django.utils import timezone
 from datetime import datetime,date
 from django.utils.encoding import force_bytes
-# from django.utils.encoding import smart_bytes, force_text
 from .forms import EmailChangeForm
 from django.conf import settings
-import ssl
 from decimal import Decimal
 from datetime import datetime
-from django.contrib.auth.decorators import login_required
-from django.core.mail import EmailMessage
 from django.db.models import Sum
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
@@ -22,7 +18,7 @@ from .models import  Wallet, CustomUser,Transaction,Friend
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
-from django.utils.encoding import force_bytes, smart_bytes
+from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.core.mail import send_mail
 from django.utils.encoding import force_bytes, force_str
@@ -128,6 +124,13 @@ def user_login(request):
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
+            if not username:
+                form.add_error('username', "Username is required.")
+                return render(request, 'enroll/userlogin.html', {'form': form})
+            if not password:
+                form.add_error('password', "Password is required.")
+                return render(request, 'enroll/userlogin.html', {'form': form})
+            
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
@@ -141,15 +144,14 @@ def user_login(request):
                 request.session['login_attempts'] = login_attempts + 1
                 
                 # Check if login attempts threshold is reached
-                if login_attempts >= 2:  # Adjusted to start from 0
+                if login_attempts >= 20:  # Adjusted to start from 0
                     login_disabled_until = timezone.now() + timezone.timedelta(minutes=5)
                     request.session['login_disabled_until'] = login_disabled_until.strftime('%Y-%m-%d %H:%M:%S')
                     return HttpResponse("Login is disabled for 5 minutes.")
                 else:
-                    # Return an error indicating invalid credentials
-                    form.add_error(None, "Invalid username or password.")
-                    # Re-render the login form with errors
-                    return render(request, 'enroll/userlogin.html', {'form': form})
+                # Validation 3: Invalid credentials
+                   messages.error(request, 'Invalid username or password.')
+                   return render(request, 'enroll/userlogin.html', {'form': form})
         else:
             # Form is invalid, likely due to incorrect credentials
             # Increase the login attempts count
@@ -157,12 +159,13 @@ def user_login(request):
             request.session['login_attempts'] = login_attempts + 1
 
             # Check if login attempts threshold is reached
-            if login_attempts >= 2:  # Adjusted to start from 0
+            if login_attempts >= 20:  # Adjusted to start from 0
                 login_disabled_until = timezone.now() + timezone.timedelta(minutes=5)
                 request.session['login_disabled_until'] = login_disabled_until.strftime('%Y-%m-%d %H:%M:%S')
                 return HttpResponse("Login is disabled for 5 minutes.")
             else:
                 # Re-render the login form with errors
+                messages.error(request, 'Invalid username or password.')
                 return render(request, 'enroll/userlogin.html', {'form': form})
     else:
         form = AuthenticationForm()

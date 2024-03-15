@@ -20,6 +20,17 @@ label {
     display: block;
     margin-bottom: 6px;
     font-weight: bold;
+    text-align: left !important;
+}
+.text-center {
+    text-align: center;
+}
+
+/* Override center alignment for input fields */
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"] {
+    text-align: left;
 }
 input[type="text"],
 input[type="email"],
