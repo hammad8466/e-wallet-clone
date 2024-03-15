@@ -1,0 +1,24 @@
+<!-- admin_load_balance.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Load Balance</title>
+</head>
+<body>
+    <h1>Admin Load Balance</h1>
+    {% if error_message %}
+        <p>{{ error_message }}</p>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <label for="email_or_contact">Enter User Email or Contact Number:</label><br>
+        <input type="text" id="email_or_contact" name="email_or_contact"><br><br>
+        <label for="amount">Enter Amount to Load:</label><br>
+        <input type="number" id="amount" name="amount"><br><br>
+        <input type="submit" value="Load Balance">
+    </form>
+</body>
+</html>

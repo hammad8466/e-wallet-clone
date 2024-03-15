@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Website{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'home.css' %}">
+</head>
+<body>
+    <header>
+        {% block header %}
+            <!-- Header content -->
+        {% endblock %}
+    </header>
+    <nav>
+        {% block nav %}
+            <!-- Navigation menu -->
+        {% endblock %}
+    </nav>
+    <main>
+        {% block content %}
+            <!-- Main content area -->
+        {% endblock %}
+    </main>
+    <footer>
+        {% block footer %}
+            <!-- Footer content -->
+        {% endblock %}
+    </footer>
+</body>
+</html>

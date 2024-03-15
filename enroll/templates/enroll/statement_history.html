@@ -1,0 +1,32 @@
+<!-- statement_history.html -->
+
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="search_query" value="{{ search_query }}">
+    <button type="submit">Search</button>
+</form>
+
+{% if transactions %}
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transaction in transactions %}
+                <tr>
+                    <td>{{ transaction.date }}</td>
+                    <td>{{ transaction.type }}</td>
+                    <td>{{ transaction.amount }}</td>
+                    <td>{{ transaction.description }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No transactions found.</p>
+{% endif %}

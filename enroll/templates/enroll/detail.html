@@ -1,0 +1,13 @@
+{% load cloudinary %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ post.title }}</title>
+  </head>
+  <body>
+    <h1>{{ post.title }}</h1>
+    {% cloudinary post.image width=600 height=600 crop='fill' alt=post.title %}
+    <p>{{ post.content }}</p>
+  </body>
+</html>

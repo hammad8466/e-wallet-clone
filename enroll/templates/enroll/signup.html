@@ -1,0 +1,31 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration</title>
+    <!-- Link to external CSS file -->
+    <link rel="stylesheet" type="text/css" href="{% static 'signup.css' %}">
+</head>
+<body>
+    <form action="" method="post" novalidate>
+    {% csrf_token %}
+        {% for fm in form  %}
+           {{fm.label_tag}}  {{fm}} {{fm.errors|striptags}} <br> <br>
+        {% endfor %}
+        <input type="submit" value="Submit">
+    </form>
+    {% if form.is_bound and not form.errors %}
+        <p>Account created successfully! Please check your email to confirm your email address.</p>
+    {% endif %}
+    {% if messages %}
+      {% for message in messages %}
+        <!-- Apply the 'success' class to elements with a success message -->
+        <small {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</small>
+       {% endfor %}
+     {% endif %}
+     <a href="{% url 'login' %}">Login</a>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Login</title>
+    <link rel="stylesheet"  href="{% static 'userlogin.css' %}">
+</head>
+<body> 
+    <div class="container">
+    <h1 class="container">User Login</h1>
+        <form action="" method="post" novalidate>
+            {% csrf_token %}
+            {% for fm in form %}
+                <label for="{{ fm.id_for_label }}">{{ fm.label_tag }}</label>
+                {{ fm }}
+                <div class="error-msg">{{ fm.errors }}</div>
+            {% endfor %}
+            <input type="submit" value="Login">
+        </form>
+        <div class="links">
+            <a href="{% url 'signup' %}">Signup</a>
+            <a href="{% url 'changepass' %}">Change Password</a>
+        </div>
+    </div>
+</body>
+</html>

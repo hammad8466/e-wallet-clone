@@ -1,0 +1,33 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Confirmation</title>
+</head>
+<body>
+    <h2>Email Confirmation</h2>
+    <p>Hello {{ user.username }},</p>
+    <p>Thank you for registering with us. Please click the link below to confirm your email address:</p>
+    <p><a href="{{ confirmation_link }}">{{ confirmation_link }}</a></p>
+    <p>If you didn't register on our website, please disregard this email.</p>
+    <p>Regards,<br>
+    Your Website Team</p>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Email Confirmation</title>
+</head>
+<body>
+    <h1>Confirm Your Email Address</h1>
+    <p>Hello {{ user.username }},</p>
+    <p>Please click the link below to confirm your email address:</p>
+    <p><a href="{{ confirmation_link }}">Confirm Email Address</a></p>
+    <p>If you did not create an account, please ignore this email.</p>
+</body>
+</html>

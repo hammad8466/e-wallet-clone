@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <!-- Link to external CSS file for profile page -->
+    <link rel="stylesheet" type="text/css" href="{% static 'profile.css' %}">
+</head>
+<body>
+    <a href="{% url 'home' %}" class="profile-link">Home</a>
+    <p class="profile-heading">Welcome to your profile, {{ name }}</p>
+    <form action="" method="post" novalidate>
+        {% csrf_token %}
+        {% for fm in form %}
+            {{ fm.label_tag }}  {{ fm }} {{ fm.errors|striptags }} <br> <br>
+        {% endfor %}
+        <input type="submit" value="Save">
+    </form>
+    {% if messages %}
+        {% for message in messages %}
+            <small {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</small>
+        {% endfor %}
+    {% endif %}
+    <a href="{% url 'logout' %}" class="profile-link">Logout</a>
+    <a href="{% url 'changepass' %}" class="profile-link">Change Password</a>
+</body>
+</html>

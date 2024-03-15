@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Statement</title>
+    <!-- Link to external CSS file for account statement page -->
+    <link rel="stylesheet" type="text/css" href="{% static 'account_statement.css' %}">
+</head>
+<body>
+    <h1>Account Statement</h1>
+    
+    <h2 class="incoming">Incoming Transfers</h2>
+    <ul>
+        {% for transaction in incoming_transactions %}
+            <li class="incoming">
+                Amount: {{ transaction.amount }} Rs<br>
+                Timestamp: {{ transaction.timestamp }}<br>
+                Purpose: {{ transaction.purpose }}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h2 class="outgoing">Outgoing Transfers</h2>
+    <ul>
+        {% for transaction in outgoing_transactions %}
+            <li class="outgoing">
+                Amount: {{ transaction.amount }} Rs<br>
+                Timestamp: {{ transaction.timestamp }}<br>
+                Purpose: {{ transaction.purpose }}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

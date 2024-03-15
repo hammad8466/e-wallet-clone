@@ -1,0 +1,31 @@
+<!-- admin_statement_history.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Statement History</title>
+</head>
+<body>
+    <h1>Admin Statement History for {{ user.get_full_name }}</h1>
+    
+    <h2>Incoming Transactions</h2>
+    <ul>
+    {% for transaction in incoming_transactions %}
+        <li>{{ transaction }}</li>
+    {% empty %}
+        <li>No incoming transactions</li>
+    {% endfor %}
+    </ul>
+
+    <h2>Outgoing Transactions</h2>
+    <ul>
+    {% for transaction in outgoing_transactions %}
+        <li>{{ transaction }}</li>
+    {% empty %}
+        <li>No outgoing transactions</li>
+    {% endfor %}
+    </ul>
+</body>
+</html>

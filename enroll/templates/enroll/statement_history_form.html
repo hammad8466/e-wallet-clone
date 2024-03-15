@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statement History</title>
+</head>
+<body>
+    <h1>Statement History</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="email_or_contact">Enter Email Address or Contact Number:</label><br>
+        <input type="text" id="email_or_contact" name="email_or_contact"><br><br>
+        <button type="submit">View Statement History</button>
+    </form>
+</body>
+</html>

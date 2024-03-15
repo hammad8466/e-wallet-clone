@@ -1,0 +1,34 @@
+<!-- admin_account_statement.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Statement History</title>
+</head>
+<body>
+    <h1>Admin Statement History</h1>
+    {% if incoming_transactions %}
+        <h2>Incoming Transactions for {{ user.get_full_name }}</h2>
+        <ul>
+            {% for transaction in incoming_transactions %}
+                <li>Amount: {{ transaction.amount }}, Purpose: {{ transaction.purpose }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No incoming transactions found for {{ user.get_full_name }}</p>
+    {% endif %}
+
+    {% if outgoing_transactions %}
+        <h2>Outgoing Transactions for {{ user.get_full_name }}</h2>
+        <ul>
+            {% for transaction in outgoing_transactions %}
+                <li>Amount: {{ transaction.amount }}, Purpose: {{ transaction.purpose }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No outgoing transactions found for {{ user.get_full_name }}</p>
+    {% endif %}
+</body>
+</html>
