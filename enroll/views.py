@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.utils import timezone
 from datetime import datetime, date
 from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.conf import settings
 from decimal import Decimal
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
@@ -310,19 +311,6 @@ def admin_statement_history(request):
         form = StatementHistoryForm()
     return render(request, 'enroll/admin_statement_history_form.html', {'form': form})
 
-def user_change_pass(request):  
-    if request.method == "POST":
-        fm = PasswordChangeForm(user=request.user, data=request.POST)
-        if fm.is_valid():
-            fm.save()
-            messages.success(request, "Password changed successfully.")
-            return redirect('profile')  # Assuming 'profile' is the name of the URL for the user's profile page
-        else:
-            messages.error(request, "An error occurred while changing the password. Please try again.")
-    else:    
-        fm = PasswordChangeForm(user=request.user)
-    return render(request, 'enroll/changepass.html', {'form': fm})     
-
 def user_change_email(request):
     if request.method == "POST":
         form = EmailChangeForm(request.POST, user=request.user)
@@ -347,3 +335,24 @@ def user_change_email(request):
     else:
         form = EmailChangeForm()
     return render(request, 'enroll/change_email.html', {'form': form})
+
+def confirm_email_change(request, uidb64, token):
+    try:
+        uid = force_bytes(urlsafe_base64_decode(uidb64))
+        user = CustomUser.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, CustomUser.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        new_email = user.new_email
+        if new_email:
+            user.email = new_email  # Update the user's email address
+            user.new_email = ''  # Clear the temporary new email field
+            user.save()
+            messages.success(request, 'Your email address has been successfully updated.')
+        else:
+            messages.error(request, 'No new email address found to update.')
+    else:
+        messages.error(request, 'Invalid confirmation link.')
+
+    return redirect('profile')  # Redirect to user's profile page

@@ -8,11 +8,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'userlogin.css' %}">
 </head>
-<body> 
+<body style="background-color: #f9f9f9"> 
     <div class="container">
         <h1>User Login</h1>
-        
-
         
         <form action="" method="post" novalidate class="needs-validation">
             {% csrf_token %}
@@ -36,8 +34,7 @@
         </div>
     {% endif %}
         <div class="links">
-            <a href="{% url 'signup' %}" class="btn btn-link">Signup</a>
-            <a href="{% url 'changepass' %}" class="btn btn-link">Change Password</a>
+            <a href="{% url 'signup' %}" class="btn btn-primary btn-block">Signup</a>
         </div>
     </div>
 
