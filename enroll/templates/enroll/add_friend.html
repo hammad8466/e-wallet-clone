@@ -1,35 +1,15 @@
 {% extends 'enroll/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Add Friend</title>
-    <!-- Link to Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Link to external CSS file for Add Friend page -->
-    <link rel="stylesheet" type="text/css" href="{% static 'add_friends.css' %}">
-    <style>
-        .container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div>
-            <h1 class="mt-5">Add Friend</h1>
-            {% block content %}
-            <form method="post" class="mt-4">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="btn btn-primary">Add Friend</button>
-            </form>
-            {% endblock %}
-        </div>
-    </div>
-</body>
-</html>
+
+{% block title %}Add Friend{% endblock %}
+
+{% block content %}
+<div class="container d-flex flex-column justify-content-center align-items-center">
+    <h1 class="mt-5">Add Friend</h1>
+    <form method="post" class="mt-4">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Add Friend</button>
+    </form>
+</div>
+{% endblock %}

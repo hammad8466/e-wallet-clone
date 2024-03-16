@@ -1,39 +1,43 @@
+{% extends 'enroll/base.html' %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Statement History</title>
-    <!-- Link to Bootstrap CSS from a CDN -->
+    <title>Account Statement</title>
+    <!-- Link to Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- You can also use the following link if you prefer a different version or CDN provider:
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    -->
+    <!-- Link to external CSS file for Account Statement page -->
+    <link rel="stylesheet" type="text/css" href="{% static 'account_statement.css' %}">
 </head>
 <body>
+{% block content %}
     <div class="container">
-        <h1 class="mt-5">Admin Statement History</h1>
-        {% if incoming_transactions %}
-            <h2 class="mt-4">Incoming Transactions for {{ user.get_full_name }}</h2>
-            <ul class="list-group">
-                {% for transaction in incoming_transactions %}
-                    <li class="list-group-item">Amount: {{ transaction.amount }}, Purpose: {{ transaction.purpose }}</li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>No incoming transactions found for {{ user.get_full_name }}</p>
-        {% endif %}
+        <h1 class="mt-5">Account Statement</h1>
+        
+        <h2 class="mt-4 incoming">Incoming Transfers</h2>
+        <ul class="list-group">
+            {% for transaction in incoming_transactions %}
+                <li class="list-group-item incoming">
+                    Amount: {{ transaction.amount }} Rs<br>
+                    Timestamp: {{ transaction.timestamp }}<br>
+                    Purpose: {{ transaction.purpose }}
+                </li>
+            {% endfor %}
+        </ul>
 
-        {% if outgoing_transactions %}
-            <h2 class="mt-4">Outgoing Transactions for {{ user.get_full_name }}</h2>
-            <ul class="list-group">
-                {% for transaction in outgoing_transactions %}
-                    <li class="list-group-item">Amount: {{ transaction.amount }}, Purpose: {{ transaction.purpose }}</li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>No outgoing transactions found for {{ user.get_full_name }}</p>
-        {% endif %}
+        <h2 class="mt-4 outgoing">Outgoing Transfers</h2>
+        <ul class="list-group">
+            {% for transaction in outgoing_transactions %}
+                <li class="list-group-item outgoing">
+                    Amount: {{ transaction.amount }} Rs<br>
+                    Timestamp: {{ transaction.timestamp }}<br>
+                    Purpose: {{ transaction.purpose }}
+                </li>
+            {% endfor %}
+        </ul>
     </div>
+{% endblock %}
 </body>
 </html>

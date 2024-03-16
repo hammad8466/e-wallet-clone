@@ -1,3 +1,4 @@
+{% extends 'enroll/base.html' %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -11,12 +12,18 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="mt-5">Friends List</h1>
-        <ul class="list-group mt-4">
-            {% for friend in friends %}
-            <li class="list-group-item">{{ friend.nickname }} - {{ friend.email }} - {{ friend.contact_number }}</li>
-            {% endfor %}
-        </ul>
+        <div class="content d-flex justify-content-center align-items-center">
+            {% block content %}
+                <div>
+                    <h1 class="mt-5">Friends List</h1>
+                    <ul class="list-group mt-4">
+                        {% for friend in friends %}
+                            <li class="list-group-item">{{ friend.nickname }} - {{ friend.email }} - {{ friend.contact_number }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endblock %}
+        </div>
     </div>
 </body>
 </html>

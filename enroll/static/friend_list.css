@@ -1,28 +1,25 @@
-/* Define styles for the Friends List page */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
+/* Add your CSS styles here */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Ensure content is vertically centered */
+}
+
+.content {
+    width: 100%; /* Ensure content fits container width */
+    max-width: 600px; /* Set maximum width for content */
 }
 
 h1 {
-    color: #333;
+    margin-top: 20px; /* Add some top margin to the heading */
+    text-align: center; /* Center-align the heading */
 }
 
-ul {
-    list-style-type: none;
-    padding: 0;
+.list-group {
+    margin-top: 20px; /* Add some top margin to the list */
 }
 
-li {
-    background-color: #fff;
-    padding: 10px;
-    margin-bottom: 5px;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-li:hover {
-    background-color: #f0f0f0;
+.list-group-item {
+    border-radius: 0; /* Remove default border-radius */
 }

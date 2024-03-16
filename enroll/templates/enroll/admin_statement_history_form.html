@@ -1,14 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Statement History Search</title>
-    <!-- Link to Bootstrap CSS from a CDN -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
-    <div class="container">
+{% extends 'enroll/base.html' %}
+{% load static %}
+
+{% block title %}Admin Statement History Search{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center">
+    <div class="text-center">
         <h1 class="mt-5">Admin Statement History Search</h1>
         
         <form method="post" class="mt-4">
@@ -23,5 +20,5 @@
             </div>
         {% endif %}
     </div>
-</body>
-</html>
+</div>
+{% endblock %}
