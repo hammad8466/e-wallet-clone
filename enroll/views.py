@@ -1,34 +1,23 @@
-from django.shortcuts import render,HttpResponseRedirect,redirect
-from .forms import SignUpForm,EditUserProfileForm,TransferFundsForm,ToggleBalanceForm,FriendForm
+from django.shortcuts import render, HttpResponse, HttpResponseRedirect, redirect
 from django.contrib import messages
-from django.http import HttpResponse, JsonResponse
 from django.utils import timezone
-from datetime import datetime,date
+from datetime import datetime, date
 from django.utils.encoding import force_bytes
-from .forms import EmailChangeForm
 from django.conf import settings
 from decimal import Decimal
-from datetime import datetime
-from django.db.models import Sum
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth import authenticate, login, logout 
 from django.urls import reverse
-from .models import  Wallet, CustomUser,Transaction,Friend
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
-from django.utils.encoding import force_bytes
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.core.mail import send_mail
-from django.utils.encoding import force_bytes, force_str
+from django.utils.http import urlsafe_base64_encode
 from django.db import IntegrityError
-from .tokens import account_activation_token
-from django.http import HttpResponseBadRequest
-import logging
-from .forms import StatementHistoryForm
+from .forms import (SignUpForm, EditUserProfileForm, TransferFundsForm, 
+                    ToggleBalanceForm, FriendForm, EmailChangeForm,
+                    StatementHistoryForm)
+from .models import Wallet, CustomUser, Transaction, Friend
 from django.core.mail import send_mail
-logger = logging.getLogger(__name__)
 
 def sign_up(request):
     if request.method == "POST":
@@ -69,50 +58,6 @@ def sign_up(request):
         fm = SignUpForm()
 
     return render(request, 'enroll/signup.html', {'form': fm})
-
-def confirm_view(request, uidb64, token):
-    try:
-        uid = force_bytes(urlsafe_base64_decode(uidb64))
-        user = CustomUser.objects.get(pk=uid)
-    except (TypeError, ValueError, OverflowError, CustomUser.DoesNotExist):
-        user = None
-
-    if user is not None and default_token_generator.check_token(user, token):
-        user.is_active = True
-        user.save()
-        # Display success message and redirect to login page
-        messages.success(request, 'Your email address has been confirmed. You can now login.')
-        return redirect('login')
-    else:
-        # Display error message and redirect to login page
-        messages.error(request, 'Invalid confirmation link. Please contact support for assistance.')
-        return redirect('login')
-
-@login_required
-def account_activation_sent(request):
-    return render(request, 'account_activation_sent.html')
-
-def activate(request, uidb64, token):
-    try:
-        uid = force_str(urlsafe_base64_decode(uidb64))
-        user = CustomUser.objects.get(pk=uid)
-    except (TypeError, ValueError, OverflowError, CustomUser.DoesNotExist):
-        user = None
-
-    if user is not None and account_activation_token.check_token(user, token):
-        user.is_active = True
-        user.save()
-        login(request, user)
-        return redirect('account_activation_complete')
-    else:
-        return HttpResponseBadRequest('Activation link is invalid!')
-
-@login_required
-def account_activation_complete(request):
-    return render(request, 'account_activation_complete.html') 
-
-
-# @login_required
 def admin_dashboard(request):
     # Your admin dashboard view logic here
     username="Hammad"
@@ -187,7 +132,6 @@ def user_login(request):
     context = {'form': form}
     return render(request, 'enroll/userlogin.html', context)
 
-
 def user_profile(request):  
     if request.user.is_authenticated:
       if request.method == "POST":
@@ -205,66 +149,6 @@ def user_logout(request):
     logout(request)
     return HttpResponseRedirect('/login/')
 
-
-@login_required
-def user_change_pass(request):  
-    if request.method == "POST":
-        fm = PasswordChangeForm(user=request.user, data=request.POST)
-        if fm.is_valid():
-            fm.save()
-            messages.success(request, "Password changed successfully.")
-            return redirect('profile')  # Assuming 'profile' is the name of the URL for the user's profile page
-        else:
-            messages.error(request, "An error occurred while changing the password. Please try again.")
-    else:    
-        fm = PasswordChangeForm(user=request.user)
-    return render(request, 'enroll/changepass.html', {'form': fm})     
-
-def user_change_email(request):
-    if request.method == "POST":
-        form = EmailChangeForm(request.POST, user=request.user)
-        if form.is_valid():
-            new_email = form.cleaned_data.get('new_email')
-            # Set the new email in the user model for temporary storage
-            request.user.new_email = new_email
-            request.user.save()
-            # Send email confirmation
-            current_site = get_current_site(request)
-            uid = urlsafe_base64_encode(force_bytes(request.user.pk))
-            token = default_token_generator.make_token(request.user)
-            confirmation_link = f"http://{current_site.domain}/confirm_email_change/{uid}/{token}/"
-            subject = 'Confirm your new email address'
-            message = render_to_string('enroll/confirmation_email_change.html', {
-                'user': request.user,
-                'confirmation_link': confirmation_link,
-            })
-            send_mail(subject, message, settings.EMAIL_HOST_USER, [new_email])
-            messages.success(request, 'Confirmation email sent to your new email address.')
-            return redirect('profile')  # Redirect to user's profile page
-    else:
-        form = EmailChangeForm()
-    return render(request, 'enroll/change_email.html', {'form': form})
-
-def confirm_email_change(request, uidb64, token):
-    try:
-        uid = force_bytes(urlsafe_base64_decode(uidb64))
-        user = CustomUser.objects.get(pk=uid)
-    except (TypeError, ValueError, OverflowError, CustomUser.DoesNotExist):
-        user = None
-
-    if user is not None and default_token_generator.check_token(user, token):
-        new_email = user.new_email
-        if new_email:
-            user.email = new_email  # Update the user's email address
-            user.new_email = ''  # Clear the temporary new email field
-            user.save()
-            messages.success(request, 'Your email address has been successfully updated.')
-        else:
-            messages.error(request, 'No new email address found to update.')
-    else:
-        messages.error(request, 'Invalid confirmation link.')
-
-    return redirect('profile')  # Redirect to user's profile page
 def home(request):
     user_name = request.user.get_full_name() if request.user.is_authenticated else None
     current_balance = 0.0
@@ -331,8 +215,6 @@ def transfer_funds(request):
 
     return render(request, 'enroll/transfer_funds.html', {'form': form})
 
-
-
 def account_statement(request):
     # Retrieve incoming and outgoing transactions for the logged-in user
     user = request.user
@@ -347,7 +229,6 @@ def account_statement(request):
 
     # Render the account statement template with transaction data
     return render(request, 'enroll/account_statement.html', context)
-
 
 def add_friend(request):
     if request.method == 'POST':
@@ -365,9 +246,6 @@ def friends_list(request):
     friends = Friend.objects.filter(user=request.user)
     return render(request, 'enroll/friends_list.html', {'friends': friends})
 
-from decimal import Decimal
-
-# @login_required
 def admin_load_balance(request):
     if request.method == 'POST':
         email_or_contact = request.POST.get('email_or_contact')
@@ -404,6 +282,7 @@ def admin_load_balance(request):
         return render(request, 'enroll/admin_load_balance.html')
 
 def admin_statement_history(request):
+
     if request.method == 'POST':
         form = StatementHistoryForm(request.POST)
         if form.is_valid():
@@ -430,3 +309,41 @@ def admin_statement_history(request):
     else:
         form = StatementHistoryForm()
     return render(request, 'enroll/admin_statement_history_form.html', {'form': form})
+
+def user_change_pass(request):  
+    if request.method == "POST":
+        fm = PasswordChangeForm(user=request.user, data=request.POST)
+        if fm.is_valid():
+            fm.save()
+            messages.success(request, "Password changed successfully.")
+            return redirect('profile')  # Assuming 'profile' is the name of the URL for the user's profile page
+        else:
+            messages.error(request, "An error occurred while changing the password. Please try again.")
+    else:    
+        fm = PasswordChangeForm(user=request.user)
+    return render(request, 'enroll/changepass.html', {'form': fm})     
+
+def user_change_email(request):
+    if request.method == "POST":
+        form = EmailChangeForm(request.POST, user=request.user)
+        if form.is_valid():
+            new_email = form.cleaned_data.get('new_email')
+            # Set the new email in the user model for temporary storage
+            request.user.new_email = new_email
+            request.user.save()
+            # Send email confirmation
+            current_site = get_current_site(request)
+            uid = urlsafe_base64_encode(force_bytes(request.user.pk))
+            token = default_token_generator.make_token(request.user)
+            confirmation_link = f"http://{current_site.domain}/confirm_email_change/{uid}/{token}/"
+            subject = 'Confirm your new email address'
+            message = render_to_string('enroll/confirmation_email_change.html', {
+                'user': request.user,
+                'confirmation_link': confirmation_link,
+            })
+            send_mail(subject, message, settings.EMAIL_HOST_USER, [new_email])
+            messages.success(request, 'Confirmation email sent to your new email address.')
+            return redirect('profile')  # Redirect to user's profile page
+    else:
+        form = EmailChangeForm()
+    return render(request, 'enroll/change_email.html', {'form': form})

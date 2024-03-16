@@ -17,11 +17,5 @@ urlpatterns = [
     path('statement-history/', views.admin_statement_history, name='admin_statement_history'),
     path('load-balance/', views.admin_load_balance, name='admin_load_balance'),
     path('change_email/', views.user_change_email, name='change_email'),
-    
-    path('confirm_email_change/<str:uidb64>/<str:token>/', views.confirm_email_change, name='confirm_email_change'),
-    path('account_activation_sent/', views.account_activation_sent, name='account_activation_sent'),
-    path('activate/<uidb64>/<token>/', views.activate, name='activate'),
-    path('account_activation_complete/', views.account_activation_complete, name='account_activation_complete'),
     path('admin_dashboard/', views.admin_dashboard,name='admin_dashboard'),
-    path('confirm/<str:uidb64>/<str:token>/', views.confirm_view, name='confirm'),
 ]
