@@ -13,9 +13,9 @@ urlpatterns = [
     path('account-statement/', views.account_statement, name='account_statement'),
     path('add-friend/', views.add_friend, name='add_friend'),
     path('friends-list/', views.friends_list, name='friends_list'), 
+    path('change_email/', views.user_change_email, name='change_email'),
+    path('confirm_email_change/<str:uidb64>/<str:token>/', views.confirm_email_change, name='confirm_email_change'),
     path('statement-history/', views.admin_statement_history, name='admin_statement_history'),
     path('load-balance/', views.admin_load_balance, name='admin_load_balance'),
-    path('change_email/', views.user_change_email, name='change_email'),
-    path('admin_dashboard/', views.admin_dashboard,name='admin_dashboard'),
-    path('confirm_email_change/<str:uidb64>/<str:token>/', views.confirm_email_change, name='confirm_email_change'),
+    path('confirm/<str:uidb64>/<str:token>/', views.confirm_view, name='confirm'),
 ]

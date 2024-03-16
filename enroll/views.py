@@ -6,7 +6,8 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.conf import settings
 from decimal import Decimal
-from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import authenticate, login, logout 
 from django.urls import reverse
 from django.contrib.auth.tokens import default_token_generator
@@ -59,11 +60,6 @@ def sign_up(request):
         fm = SignUpForm()
 
     return render(request, 'enroll/signup.html', {'form': fm})
-def admin_dashboard(request):
-    # Your admin dashboard view logic here
-    username="Hammad"
-    return render(request, 'enroll/admin_dashboard.html',{'username':username})
-
 def user_login(request):
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
@@ -246,7 +242,7 @@ def add_friend(request):
 def friends_list(request):
     friends = Friend.objects.filter(user=request.user)
     return render(request, 'enroll/friends_list.html', {'friends': friends})
-
+@staff_member_required
 def admin_load_balance(request):
     if request.method == 'POST':
         email_or_contact = request.POST.get('email_or_contact')
@@ -281,7 +277,7 @@ def admin_load_balance(request):
         return redirect('admin_load_balance')
     else:
         return render(request, 'enroll/admin_load_balance.html')
-
+@staff_member_required
 def admin_statement_history(request):
 
     if request.method == 'POST':
@@ -310,7 +306,23 @@ def admin_statement_history(request):
     else:
         form = StatementHistoryForm()
     return render(request, 'enroll/admin_statement_history_form.html', {'form': form})
+def confirm_view(request, uidb64, token):
+    try:
+        uid = force_bytes(urlsafe_base64_decode(uidb64))
+        user = CustomUser.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, CustomUser.DoesNotExist):
+        user = None
 
+    if user is not None and default_token_generator.check_token(user, token):
+        user.is_active = True
+        user.save()
+        # Display success message and redirect to login page
+        messages.success(request, 'Your email address has been confirmed. You can now login.')
+        return redirect('login')
+    else:
+        # Display error message and redirect to login page
+        messages.error(request, 'Invalid confirmation link. Please contact support for assistance.')
+        return redirect('login')
 def user_change_email(request):
     if request.method == "POST":
         form = EmailChangeForm(request.POST, user=request.user)
