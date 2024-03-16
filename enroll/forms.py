@@ -48,7 +48,7 @@ class FriendForm(forms.ModelForm):
         fields = ['nickname', 'email', 'contact_number']   
        
 class TransferFundsForm(forms.Form):
-    receiver = forms.CharField(max_length=20, label='Receiver Contact')
+    contact = forms.CharField(max_length=20, label='Receiver Contact')
     amount = forms.DecimalField(max_digits=10, decimal_places=2, label='Amount')
     purpose = forms.CharField(max_length=255, label='Purpose')
 

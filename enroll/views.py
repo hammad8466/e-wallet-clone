@@ -2,6 +2,8 @@ from django.shortcuts import render, HttpResponse, HttpResponseRedirect, redirec
 from django.contrib import messages
 from django.utils import timezone
 from datetime import datetime, date
+from django.http import  JsonResponse
+from django.db.models import Sum
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.conf import settings
@@ -172,7 +174,7 @@ def transfer_funds(request):
         form = TransferFundsForm(request.POST)
         if form.is_valid():
             sender = request.user
-            recipient_contact = form.cleaned_data['receiver']
+            recipient_contact = form.cleaned_data['contact']
             amount = form.cleaned_data['amount']
             purpose = form.cleaned_data['purpose']
 
