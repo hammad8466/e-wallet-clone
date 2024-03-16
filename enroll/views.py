@@ -78,10 +78,10 @@ def user_login(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                if user.is_staff == True:
-                 return render(request, 'enroll/admin_dashboard.html')
-                else:
-                 return HttpResponseRedirect(reverse('profile'))
+                # if user.is_staff == True:
+                #  return render(request, 'enroll/admin_dashboard.html')
+                # else:
+                return HttpResponseRedirect(reverse('profile'))
             else:
                 # Increase the login attempts count
                 login_attempts = request.session.get('login_attempts', 0)
